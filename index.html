@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="./tab_icon.png">
+    <link rel="shortcut icon" href="./icon_black.png">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -21,13 +21,14 @@
 <body>
     <div class="sidebar">
         <div class="logo_details">
-            <img class="icon" src="./icon.png" style="width: 28px">
+            <img class="icon" src="./icon_black.png" style="width: 28px; padding-right: 5px">
             <div class="logo_name">CrimeScope</div>
             <i class="bx bx-menu" id="btn"></i>
         </div>
         <ul class="nav-list">
             <li>
                 <a href="#" onclick="toggleFilter('Assault')">
+                <div class="toggle assault_toggle"></div>
                 <i class="bx bxs-hand"></i>
                 <span class="link_name">Assault</span>
                 </a>
@@ -35,6 +36,7 @@
             </li>
             <li>
                 <a href="#" onclick="toggleFilter('Break and Enter')">
+                <div class="toggle break_enter_toggle"></div>
                 <i class="bx bx-building-house"></i>
                 <span class="link_name">Break and Enter</span>
                 </a>
@@ -42,6 +44,7 @@
             </li>
             <li>
                 <a href="#" onclick="toggleFilter('Auto Theft')">
+                <div class="toggle auto_theft_toggle"></div>
                 <i class="bx bx-car"></i>
                 <span class="link_name">Auto Theft</span>
                 </a>
@@ -49,6 +52,7 @@
             </li>
             <li>
                 <a href="#" onclick="toggleFilter('Theft Over')">
+                <div class="toggle theft_toggle"></div>
                 <i class="bx bx-money"></i>
                 <span class="link_name">Theft</span>
                 </a>
@@ -56,6 +60,7 @@
             </li>
             <li>
                 <a href="#" onclick="toggleFilter('Robbery')">
+                <div class="toggle robbery_toggle"></div>
                 <i class="bx bx-group"></i>
                 <span class="link_name">Robbery</span>
                 </a>

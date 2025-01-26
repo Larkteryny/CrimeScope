@@ -168,11 +168,31 @@ function create_clusters() {
 
 function toggleFilter(category) {
   activated.set(category, !activated.get(category));
+  var toggle = document.getElementsByClassName(toggleClassNames.get(category))[0];
   if (activated.get(category)) {
     map.addLayer(clusterGroups.get(category))
+    toggle.style.backgroundColor = '#' + color_grads.get(category)[0];
+    toggle.style.border = '3px solid #' + color_grads.get(category)[1];
   } else {
     map.removeLayer(clusterGroups.get(category));
+    toggle.style.backgroundColor = '#c0c0c0';
+    toggle.style.border = '3px solid #7a7a7a';
   }
+}
+
+var toggleClassNames = new Map([
+  ["Assault", "assault_toggle"],
+  ["Break and Enter", "break_enter_toggle"],
+  ["Auto Theft", "auto_theft_toggle"],
+  ["Theft Over", "theft_toggle"],
+  ["Robbery", "robbery_toggle"],
+])
+function initializeToggles() {
+  toggleClassNames.forEach((className, category) => {
+    var toggle = document.getElementsByClassName(className)[0];
+    toggle.style.backgroundColor = '#' + color_grads.get(category)[0];
+    toggle.style.border = '3px solid #' + color_grads.get(category)[1];
+  });
 }
 
 async function main() {
@@ -182,6 +202,7 @@ async function main() {
   }
 
   create_clusters();
+  initializeToggles();
 }
 
 // Initialize Leaflet map
@@ -189,7 +210,7 @@ var map = L.map('map').setView([43.733644, -79.361635], 11);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   maxNativeZoom: 19,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | Data source: <a href="https://data.torontopolice.on.ca/pages/open-data">Toronto Police Service PSDP</a>'
 }).addTo(map);
 
 main()
