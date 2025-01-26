@@ -205,12 +205,14 @@ function darkLightMode() {
     document.documentElement.style.setProperty('--color-text', '#000');
     document.documentElement.style.setProperty('--color-select', '#959491');
     document.documentElement.style.setProperty('--color-text-highlight', '#fff');
+    document.getElementsByClassName('icon')[0].src = "./icon_black.png";
   } else {
     toggle.classList.replace('bx-sun', 'bx-moon');
     document.documentElement.style.setProperty('--color-default', '#1e1d1a');
     document.documentElement.style.setProperty('--color-text', '#fff');
     document.documentElement.style.setProperty('--color-select', '#b2b2b0');
     document.documentElement.style.setProperty('--color-text-highlight', '#000');
+    document.getElementsByClassName('icon')[0].src = "./icon_white.png";
   }
 }
 
