@@ -5,8 +5,8 @@
     --color-default: #f0eee6;
     --color-second: #0067ac;
     --color-text: #000;
+    --color-text-highlight: #fff;
     --color-select: #959491;
-    --color-body: #f0eee6;
 }
 
 * {
@@ -108,7 +108,7 @@ body {
     padding: 6px 14px;
     font-size: 15px;
     font-weight: 400;
-    color: #fff;
+    color: var(--color-text-highlight);
     border-radius: 5px;
     white-space: nowrap;
     opacity: 0;
@@ -280,7 +280,7 @@ body {
 
 .home-section {
     position: relative;
-    background-color: var(--color-body);
+    background-color: var(--color-default);
     min-height: 100vh;
     top: 0;
     left: 78px;
@@ -318,4 +318,9 @@ body {
     border-radius: 30px;
     border: 3px solid #FFFFFF;
     background-color: #FFFFFF;
+}
+
+#darkLightToggle {
+    position: absolute;
+    bottom: 20px;
 }

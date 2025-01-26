@@ -195,6 +195,25 @@ function initializeToggles() {
   });
 }
 
+var lightMode = true;
+function darkLightMode() {
+  lightMode = !lightMode;
+  var toggle = document.getElementById('darkLightToggle');
+  if (lightMode) {
+    toggle.classList.replace('bx-moon', 'bx-sun');
+    document.documentElement.style.setProperty('--color-default', '#f0eee6');
+    document.documentElement.style.setProperty('--color-text', '#000');
+    document.documentElement.style.setProperty('--color-select', '#959491');
+    document.documentElement.style.setProperty('--color-text-highlight', '#fff');
+  } else {
+    toggle.classList.replace('bx-sun', 'bx-moon');
+    document.documentElement.style.setProperty('--color-default', '#1e1d1a');
+    document.documentElement.style.setProperty('--color-text', '#fff');
+    document.documentElement.style.setProperty('--color-select', '#b2b2b0');
+    document.documentElement.style.setProperty('--color-text-highlight', '#000');
+  }
+}
+
 async function main() {
   accidents = await read_data();
   if (accidents == null) {
