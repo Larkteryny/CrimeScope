@@ -21,7 +21,7 @@ window.onload = function () {
 
 
 const url =
-  "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json";
+  "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Major_Crime_Indicators_Open_Data/FeatureServer/0/query?outFields=*&outSR=4326&f=json";
 
 // Function to fetch data from the API
 async function fetchData(url) {
@@ -38,25 +38,26 @@ async function fetchData(url) {
   }
 }
 
-// Helper function to filter data by year range
+// Helper function to filter data by year range TODO deprecated
 function filterDataByYear(data, startYear, endYear) {
   const startDate = new Date(`${startYear}-01-01`).getTime();
   const endDate = new Date(`${endYear}-12-31`).getTime();
 
   return data.features.filter(feature => {
-    const reportDate = new Date(feature.attributes.REPORT_DATE).getTime();
+    const reportDate = new Date(parseInt(feature.attributes.REPORT_DATE, 10)).getTime();
     return reportDate >= startDate && reportDate <= endDate;
   });
 }
 
 // Function to process the fetched data
 function processData(data, startYear, endYear) {
-  const filteredData = filterDataByYear(data, startYear, endYear);
+  //const filteredData = filterDataByYear(data, startYear, endYear);
+  //console.log(filteredData);
 
   // Create a map to hold MCI categories as keys, and list of latitudes/longitudes as values
   const mciMap = new Map();
 
-  filteredData.forEach(feature => {
+  data.features.forEach(feature => {
     const attributes = feature.attributes;
     const latitude = attributes.LAT_WGS84;
     const longitude = attributes.LONG_WGS84;
@@ -80,23 +81,37 @@ async function read_data() {
   const startYear = 2020;
   const endYear = new Date().getFullYear(); // Current year
 
-  console.log("Fetching data from the URL...");
-  const rawData = await fetchData(url);
+  var mainMciMap = new Map();
+  // Loop through each year separately
+  for(var year = startYear; year <= endYear; year++) {
+    const yearUrl = `${url}&where=REPORT_YEAR=${year}`;
+    console.log("Fetching data for year:", year, "from URL:", yearUrl);
+    const rawData = await fetchData(yearUrl);
 
-  if (rawData) {
-    console.log("Processing data...");
-    const mciMap = processData(rawData, startYear, endYear);
+    if (rawData) {
+      console.log("Processing data...");
+      const mciMap = processData(rawData, startYear, endYear);
+      console.log(mciMap);
 
-    // Display the processed MCI categories and their associated points
-    mciMap.forEach((coordinates, category) => {
-      console.log(`Category: ${category}`);
-      console.log("Coordinates:", coordinates);
-    });
-
-    return mciMap;
-  } else {
-    console.error("Failed to fetch and process data.");
+      // Append to mainMciMap
+      mciMap.forEach((coordinates, category) => {
+        if (mainMciMap.has(category)) {
+          // Append coordinates to existing array
+          mainMciMap.get(category).push(...coordinates);
+        } else {
+          // Set new category with coordinates
+          mainMciMap.set(category, [...coordinates]);
+        }
+      });
+      mainMciMap.forEach((coordinates, category) => {
+        console.log(`Category: ${category}, Count: ${coordinates.length}`);
+      });
+    } else {
+      console.error(`Failed to fetch and process data for ${year}.`);
+    }
   }
+
+  return mainMciMap;
 }
 
 var color_grads = new Map([
